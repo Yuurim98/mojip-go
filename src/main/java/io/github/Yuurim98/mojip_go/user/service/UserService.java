@@ -18,7 +18,7 @@ public class UserService {
     private final PasswordUtil passwordUtil;
 
     @Transactional
-    public void registerUser(UserRegisterReqDto registerReqDto) {
+    public void registerUser(final UserRegisterReqDto registerReqDto) {
 
         validateDuplicateUser(registerReqDto.getNickname(), registerReqDto.getEmail());
 

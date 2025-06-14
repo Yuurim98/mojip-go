@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<String>> registerUser(
-        @Valid @RequestBody UserRegisterReqDto registerReqDto) {
+        @Valid @RequestBody final UserRegisterReqDto registerReqDto) {
         userService.registerUser(registerReqDto);
         return ResponseEntity.ok(ApiResponse.success());
     }
