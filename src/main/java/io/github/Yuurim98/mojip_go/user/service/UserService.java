@@ -22,11 +22,9 @@ public class UserService {
 
         validateDuplicateUser(registerReqDto.getNickname(), registerReqDto.getEmail());
 
-        User user = User.builder()
-            .email(registerReqDto.getEmail())
-            .nickname(registerReqDto.getNickname())
-            .password(getEncodingPassword(registerReqDto.getPassword()))
-            .build();
+        User user = User.of(registerReqDto.getNickname(), registerReqDto.getEmail(),
+            getEncodingPassword(registerReqDto.getPassword()));
+
         userRepository.save(user);
     }
 

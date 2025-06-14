@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,10 +30,13 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Builder
-    public User(String nickname, String email, String password) {
+    private User(String nickname, String email, String password) {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
+    }
+
+    public static User of(String nickname, String email, String password) {
+        return new User(nickname, email, password);
     }
 }
