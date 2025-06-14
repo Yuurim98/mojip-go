@@ -1,8 +1,8 @@
 package io.github.Yuurim98.mojip_go.user.service;
 
-import io.github.Yuurim98.mojip_go.common.config.PasswordEncoderConfig;
 import io.github.Yuurim98.mojip_go.common.exception.CustomException;
 import io.github.Yuurim98.mojip_go.common.exception.ErrorCode;
+import io.github.Yuurim98.mojip_go.common.util.PasswordUtil;
 import io.github.Yuurim98.mojip_go.user.domain.User;
 import io.github.Yuurim98.mojip_go.user.domain.UserRepository;
 import io.github.Yuurim98.mojip_go.user.dto.UserRegisterReqDto;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoderConfig passwordEncoderConfig;
+    private final PasswordUtil passwordUtil;
 
     @Transactional
     public void registerUser(UserRegisterReqDto registerReqDto) {
@@ -23,7 +23,7 @@ public class UserService {
         validateDuplicateUser(registerReqDto.getNickname(), registerReqDto.getEmail());
 
         User user = User.of(registerReqDto.getNickname(), registerReqDto.getEmail(),
-            getEncodingPassword(registerReqDto.getPassword()));
+            passwordUtil.encodePassword(registerReqDto.getPassword()));
 
         userRepository.save(user);
     }
@@ -39,7 +39,4 @@ public class UserService {
         }
     }
 
-    private String getEncodingPassword(String password) {
-        return passwordEncoderConfig.passwordEncoder().encode(password);
-    }
 }
