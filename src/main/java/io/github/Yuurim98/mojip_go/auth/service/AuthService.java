@@ -1,5 +1,6 @@
 package io.github.Yuurim98.mojip_go.auth.service;
 
+import io.github.Yuurim98.mojip_go.auth.dto.SessionDto;
 import io.github.Yuurim98.mojip_go.common.exception.CustomException;
 import io.github.Yuurim98.mojip_go.common.exception.ErrorCode;
 import io.github.Yuurim98.mojip_go.common.util.PasswordUtil;
@@ -15,7 +16,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordUtil passwordUtil;
 
-    public Long authenticate(String email, String password) {
+    public SessionDto authenticate(String email, String password) {
         User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
@@ -23,6 +24,6 @@ public class AuthService {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
 
-        return user.getId();
+        return SessionDto.of(user.getId(), user.getEmail(), user.getNickname());
     }
 }
