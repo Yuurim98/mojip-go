@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
+    private static final String USER_SESSION_KEY = "authenticatedUser";
+
     private final AuthService authService;
 
     @PostMapping("/login")
@@ -35,7 +37,7 @@ public class AuthController {
 
         HttpSession newSession = request.getSession(true);
 
-        newSession.setAttribute("sessionDto", sessionDto);
+        newSession.setAttribute(USER_SESSION_KEY, sessionDto);
 
         return ApiResponse.success();
 
