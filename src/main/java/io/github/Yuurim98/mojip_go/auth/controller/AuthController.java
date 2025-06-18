@@ -3,6 +3,7 @@ package io.github.Yuurim98.mojip_go.auth.controller;
 import io.github.Yuurim98.mojip_go.auth.dto.LoginReqDto;
 import io.github.Yuurim98.mojip_go.auth.dto.SessionDto;
 import io.github.Yuurim98.mojip_go.auth.service.AuthService;
+import io.github.Yuurim98.mojip_go.common.constants.SessionConstants;
 import io.github.Yuurim98.mojip_go.common.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
 public class AuthController {
-
-    private static final String USER_SESSION_KEY = "authenticatedUser";
 
     private final AuthService authService;
 
@@ -37,7 +36,7 @@ public class AuthController {
 
         HttpSession newSession = request.getSession(true);
 
-        newSession.setAttribute(USER_SESSION_KEY, sessionDto);
+        newSession.setAttribute(SessionConstants.USER_SESSION_KEY, sessionDto);
 
         return ApiResponse.success();
 
