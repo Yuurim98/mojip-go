@@ -1,5 +1,6 @@
 package io.github.Yuurim98.mojip_go.meeting.domain;
 
+import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -11,4 +12,8 @@ public enum MeetingType {
 
     private final String description;
 
+    public static boolean containsName(String typeName) {
+        return Arrays.stream(MeetingType.values())
+            .anyMatch(type -> type.name().equals(typeName));
+    }
 }
