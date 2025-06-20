@@ -19,7 +19,7 @@ public class MeetingController {
 
     private final MeetingService meetingService;
 
-    @PostMapping("")
+    @PostMapping()
     public ApiResponse<String> createMeeting(@Valid @RequestBody final CreateMeetingReqDto reqDto, @LoginUser final SessionDto sessionDto) {
         meetingService.createMeeting(reqDto, sessionDto.getUserId());
         return ApiResponse.success();
