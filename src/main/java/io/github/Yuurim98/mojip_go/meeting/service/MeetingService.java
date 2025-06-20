@@ -1,5 +1,41 @@
 package io.github.Yuurim98.mojip_go.meeting.service;
 
+import io.github.Yuurim98.mojip_go.common.exception.CustomException;
+import io.github.Yuurim98.mojip_go.common.exception.ErrorCode;
+import io.github.Yuurim98.mojip_go.meeting.domain.Meeting;
+import io.github.Yuurim98.mojip_go.meeting.domain.MeetingRepository;
+import io.github.Yuurim98.mojip_go.meeting.domain.MeetingType;
+import io.github.Yuurim98.mojip_go.meeting.dto.CreateMeetingReqDto;
+import io.github.Yuurim98.mojip_go.user.domain.User;
+import io.github.Yuurim98.mojip_go.user.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
 public class MeetingService {
+
+    private final MeetingRepository meetingRepository;
+    private final UserService userService;
+
+    @Transactional
+    public void createMeeting(final CreateMeetingReqDto reqDto, final Long userId) {
+
+        if (!MeetingType.containsName(reqDto.getMeetingType())) {
+            throw new CustomException(ErrorCode.MEETING_TYPE_NOT_FOUND);
+        }
+
+        User user = userService.findUserByUserId(userId);
+
+        Meeting meeting = Meeting.of(
+            reqDto.getTitle(),
+            reqDto.getDescription(),
+            reqDto.getMeetingType(),
+            reqDto.getMaxParticipants(),
+            user);
+
+        meetingRepository.save(meeting);
+    }
 
 }

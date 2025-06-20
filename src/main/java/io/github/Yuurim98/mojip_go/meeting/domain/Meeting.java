@@ -54,4 +54,21 @@ public class Meeting extends BaseEntity {
 
     @Column(nullable = false)
     private int currentParticipants;
+
+    private Meeting(String title, String description, MeetingStatus meetingStatus,
+        MeetingType meetingType, int maxParticipants, int currentParticipants, User user) {
+        this.title = title;
+        this.description = description;
+        this.meetingStatus = meetingStatus;
+        this.meetingType = meetingType;
+        this.maxParticipants = maxParticipants;
+        this.currentParticipants = currentParticipants;
+        this.user = user;
+    }
+
+    public static Meeting of(String title, String description, String meetingType,
+        int maxParticipants, User user) {
+        return new Meeting(title, description, MeetingStatus.RECRUITING,
+            MeetingType.valueOf(meetingType), maxParticipants, 1, user);
+    }
 }
