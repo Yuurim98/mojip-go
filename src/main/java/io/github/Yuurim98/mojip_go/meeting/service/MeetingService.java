@@ -28,17 +28,14 @@ public class MeetingService {
 
         User user = userService.findUserByUserId(userId);
 
-        Meeting meeting = createMeetingEntity(reqDto, user);
-
-        meetingRepository.save(meeting);
-    }
-
-    private Meeting createMeetingEntity(final CreateMeetingReqDto reqDto, final User user) {
-        return Meeting.of(
+        Meeting meeting = Meeting.of(
             reqDto.getTitle(),
             reqDto.getDescription(),
             reqDto.getMeetingType(),
             reqDto.getMaxParticipants(),
             user);
+
+        meetingRepository.save(meeting);
     }
+
 }
