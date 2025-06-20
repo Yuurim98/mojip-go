@@ -1,4 +1,4 @@
-package io.github.Yuurim98.mojip_go.common.config.interceptor;
+package io.github.Yuurim98.mojip_go.common.interceptor;
 
 import io.github.Yuurim98.mojip_go.common.constants.SessionConstants;
 import io.github.Yuurim98.mojip_go.common.exception.CustomException;
