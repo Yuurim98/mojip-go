@@ -28,6 +28,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User findUserByUserId(Long userId) {
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
     private void validateDuplicateUser(String nickname, String email) {
 
         if (userRepository.existsByNickname(nickname)) {

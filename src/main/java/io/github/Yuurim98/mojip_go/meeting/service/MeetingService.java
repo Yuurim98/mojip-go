@@ -7,7 +7,7 @@ import io.github.Yuurim98.mojip_go.meeting.domain.MeetingRepository;
 import io.github.Yuurim98.mojip_go.meeting.domain.MeetingType;
 import io.github.Yuurim98.mojip_go.meeting.dto.CreateMeetingReqDto;
 import io.github.Yuurim98.mojip_go.user.domain.User;
-import io.github.Yuurim98.mojip_go.user.domain.UserRepository;
+import io.github.Yuurim98.mojip_go.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MeetingService {
 
-    private final UserRepository userRepository;
     private final MeetingRepository meetingRepository;
+    private final UserService userService;
 
     @Transactional
     public void createMeeting(final CreateMeetingReqDto reqDto, final Long userId) {
@@ -26,16 +26,11 @@ public class MeetingService {
             throw new CustomException(ErrorCode.MEETING_TYPE_NOT_FOUND);
         }
 
-        User user = findUserByUserId(userId);
+        User user = userService.findUserByUserId(userId);
 
         Meeting meeting = createMeetingEntity(reqDto, user);
 
         meetingRepository.save(meeting);
-    }
-
-    private User findUserByUserId(Long userId) {
-        return userRepository.findById(userId)
-            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 
     private Meeting createMeetingEntity(final CreateMeetingReqDto reqDto, final User user) {
