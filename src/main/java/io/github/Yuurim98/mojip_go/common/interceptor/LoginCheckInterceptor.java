@@ -7,13 +7,13 @@ import io.github.Yuurim98.mojip_go.common.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
-    private static final String METHOD = "GET";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
@@ -34,6 +34,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     private boolean isPublicMeetingsGetRequest(HttpServletRequest request) {
         return request.getRequestURI().startsWith(PathConstants.MEETINGS_PATH)
-            && METHOD.equalsIgnoreCase(request.getMethod());
+            && HttpMethod.GET.toString().equalsIgnoreCase(request.getMethod());
     }
 }
