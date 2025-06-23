@@ -1,20 +1,27 @@
 package io.github.Yuurim98.mojip_go.common.interceptor;
 
+import io.github.Yuurim98.mojip_go.common.constants.PathConstants;
 import io.github.Yuurim98.mojip_go.common.constants.SessionConstants;
 import io.github.Yuurim98.mojip_go.common.exception.CustomException;
 import io.github.Yuurim98.mojip_go.common.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
         Object handler) throws Exception {
+
+        if (isPublicMeetingsGetRequest(request)) {
+            return true;
+        }
 
         HttpSession session = request.getSession(false);
 
@@ -23,5 +30,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         }
 
         return true;
+    }
+
+    private boolean isPublicMeetingsGetRequest(HttpServletRequest request) {
+        return request.getRequestURI().startsWith(PathConstants.MEETINGS_PATH)
+            && HttpMethod.GET.toString().equalsIgnoreCase(request.getMethod());
     }
 }
