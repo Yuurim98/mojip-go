@@ -11,18 +11,13 @@ import io.github.Yuurim98.mojip_go.user.domain.User;
 import io.github.Yuurim98.mojip_go.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class MeetingService {
-
-    private static final String SORT_BY = "createdAt";
 
     private final MeetingRepository meetingRepository;
     private final UserService userService;
@@ -47,12 +42,8 @@ public class MeetingService {
         meetingRepository.save(meeting);
     }
 
-    public Page<MeetingListResDto> getMeetingList(int page, int size, String meetingTypeStr) {
-
-        Sort sort = Sort.by(Direction.DESC, SORT_BY);
-        Pageable pageable = PageRequest.of(page-1, size, sort);
-
-        Page<Meeting> meetingList = null;
+    public Page<MeetingListResDto> getMeetingList(Pageable pageable, String meetingTypeStr) {
+        Page<Meeting> meetingList;
 
         if (meetingTypeStr != null) {
             validateMeetingTypeStr(meetingTypeStr);
