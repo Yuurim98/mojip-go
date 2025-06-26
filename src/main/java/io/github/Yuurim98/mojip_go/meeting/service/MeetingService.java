@@ -7,6 +7,7 @@ import io.github.Yuurim98.mojip_go.meeting.domain.MeetingRepository;
 import io.github.Yuurim98.mojip_go.meeting.domain.MeetingType;
 import io.github.Yuurim98.mojip_go.meeting.dto.CreateMeetingReqDto;
 import io.github.Yuurim98.mojip_go.meeting.dto.MeetingListResDto;
+import io.github.Yuurim98.mojip_go.meeting.dto.MeetingResDto;
 import io.github.Yuurim98.mojip_go.user.domain.User;
 import io.github.Yuurim98.mojip_go.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,12 @@ public class MeetingService {
         }
 
         return meetingList.map(MeetingListResDto::from);
+    }
+
+    public MeetingResDto getMeeting(Long id) {
+        Meeting meeting = meetingRepository.findById(id)
+            .orElseThrow(() -> new CustomException(ErrorCode.MEETING_NOT_FOUND));
+        return MeetingResDto.from(meeting);
     }
 
     private void validateMeetingTypeStr(String meetingTypeStr) {
