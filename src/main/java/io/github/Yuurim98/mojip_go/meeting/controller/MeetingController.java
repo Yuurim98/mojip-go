@@ -5,6 +5,7 @@ import io.github.Yuurim98.mojip_go.common.annotation.LoginUser;
 import io.github.Yuurim98.mojip_go.common.response.ApiResponse;
 import io.github.Yuurim98.mojip_go.meeting.dto.CreateMeetingReqDto;
 import io.github.Yuurim98.mojip_go.meeting.dto.MeetingListResDto;
+import io.github.Yuurim98.mojip_go.meeting.dto.MeetingResDto;
 import io.github.Yuurim98.mojip_go.meeting.service.MeetingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +42,11 @@ public class MeetingController {
         @PageableDefault(sort = SORT_BY_CREATED_AT, direction = Direction.DESC) Pageable pageable,
         @RequestParam(required = false) String meetingType) {
         return ApiResponse.success(meetingService.getMeetingList(pageable, meetingType));
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<MeetingResDto> getMeeting(@PathVariable Long id) {
+        return ApiResponse.success(meetingService.getMeeting(id));
     }
 
 }
