@@ -11,6 +11,7 @@ import io.github.Yuurim98.mojip_go.meeting.dto.MeetingResDto;
 import io.github.Yuurim98.mojip_go.user.domain.User;
 import io.github.Yuurim98.mojip_go.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,9 @@ public class MeetingService {
         meetingRepository.save(meeting);
     }
 
+    @Cacheable(cacheNames = "latestFirstPage",
+        key = "'latestFirstPage'",
+        condition = "@meetingCacheConditionEvaluator.isCacheableForLatestFirstPage(#pageable, #meetingTypeStr)")
     public Page<MeetingListResDto> getMeetingList(Pageable pageable, String meetingTypeStr) {
         Page<Meeting> meetingList;
 

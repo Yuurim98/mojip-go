@@ -2,6 +2,7 @@ package io.github.Yuurim98.mojip_go.meeting.controller;
 
 import io.github.Yuurim98.mojip_go.auth.dto.SessionDto;
 import io.github.Yuurim98.mojip_go.common.annotation.LoginUser;
+import io.github.Yuurim98.mojip_go.common.constants.MeetingConstants;
 import io.github.Yuurim98.mojip_go.common.response.ApiResponse;
 import io.github.Yuurim98.mojip_go.meeting.dto.CreateMeetingReqDto;
 import io.github.Yuurim98.mojip_go.meeting.dto.MeetingListResDto;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/meetings")
 public class MeetingController {
 
-    private static final String SORT_BY_CREATED_AT = "createdAt";
 
     private final MeetingService meetingService;
 
@@ -39,7 +39,7 @@ public class MeetingController {
 
     @GetMapping()
     public ApiResponse<Page<MeetingListResDto>> getMeetingList(
-        @PageableDefault(sort = SORT_BY_CREATED_AT, direction = Direction.DESC) Pageable pageable,
+        @PageableDefault(sort = MeetingConstants.SORT_BY_CREATED_AT, direction = Direction.DESC) Pageable pageable,
         @RequestParam(required = false) String meetingType) {
         return ApiResponse.success(meetingService.getMeetingList(pageable, meetingType));
     }
