@@ -1,5 +1,7 @@
 package io.github.Yuurim98.mojip_go.participation.domain;
 
-public interface ParticipationRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ParticipationRepository extends JpaRepository<Participation, Long> {
 
 }
