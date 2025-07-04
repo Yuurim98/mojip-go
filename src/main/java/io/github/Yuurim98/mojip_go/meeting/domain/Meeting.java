@@ -74,13 +74,9 @@ public class Meeting extends BaseEntity {
             MeetingType.valueOf(meetingType), maxParticipants, 1, user);
     }
 
-    public void participation() {
+    public void validateForParticipation() {
         validateNotCompleted();
         validateHasAvailableSlots();
-
-        if (meetingType == MeetingType.CHALLENGE) {
-            addParticipant();
-        }
     }
 
     public void addParticipant() {
