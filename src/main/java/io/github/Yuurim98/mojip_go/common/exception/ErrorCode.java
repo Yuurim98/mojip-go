@@ -16,7 +16,10 @@ public enum ErrorCode {
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다."),
     LOGIN_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."),
     MEETING_TYPE_NOT_FOUND(HttpStatus.BAD_REQUEST, "유효하지 않은 타입입니다."),
-    MEETING_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 모임입니다.");
+    MEETING_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 모임입니다."),
+    MEETING_CLOSED(HttpStatus.CONFLICT, "모집이 마감되었습니다."),
+    MEETING_FULL(HttpStatus.CONFLICT, "정원이 가득 찼습니다."),
+    STUDY_PARTICIPATION_MESSAGE_REQUIRED(HttpStatus.BAD_REQUEST, "스터디 참여 시 요청 메시지는 필수입니다.");
 
 
     private final HttpStatus httpStatus;

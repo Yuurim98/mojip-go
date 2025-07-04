@@ -38,7 +38,25 @@ public class Participation extends BaseEntity {
     @JoinColumn(name = "meeting_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Meeting meeting;
 
+    @Column
+    private String requestMessage;
+
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private ParticipationStatus participationStatus;
+
+    private Participation(User user, Meeting meeting, String requestMessage, ParticipationStatus participationStatus) {
+        this.user = user;
+        this.meeting = meeting;
+        this.requestMessage = requestMessage;
+        this.participationStatus = participationStatus;
+    }
+    
+    public static Participation of(User user, Meeting meeting) {
+        return new Participation(user, meeting, null, ParticipationStatus.JOINED);
+    }
+
+    public static Participation of(User user, Meeting meeting, String requestMessage) {
+        return new Participation(user, meeting, requestMessage, ParticipationStatus.REQUESTED);
+    }
 }

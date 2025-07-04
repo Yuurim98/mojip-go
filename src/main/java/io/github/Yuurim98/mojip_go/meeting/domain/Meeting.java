@@ -1,6 +1,8 @@
 package io.github.Yuurim98.mojip_go.meeting.domain;
 
 import io.github.Yuurim98.mojip_go.common.entity.BaseEntity;
+import io.github.Yuurim98.mojip_go.common.exception.CustomException;
+import io.github.Yuurim98.mojip_go.common.exception.ErrorCode;
 import io.github.Yuurim98.mojip_go.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
@@ -70,5 +72,26 @@ public class Meeting extends BaseEntity {
         int maxParticipants, User user) {
         return new Meeting(title, description, MeetingStatus.RECRUITING,
             MeetingType.valueOf(meetingType), maxParticipants, 1, user);
+    }
+
+    public void validateForParticipation() {
+        validateNotCompleted();
+        validateHasAvailableSlots();
+    }
+
+    public void addParticipant() {
+        currentParticipants++;
+    }
+
+    private void validateNotCompleted() {
+        if (meetingStatus != MeetingStatus.RECRUITING) {
+            throw new CustomException(ErrorCode.MEETING_CLOSED);
+        }
+    }
+
+    private void validateHasAvailableSlots() {
+        if (currentParticipants >= maxParticipants) {
+            throw new CustomException(ErrorCode.MEETING_FULL);
+        }
     }
 }

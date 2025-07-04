@@ -62,10 +62,14 @@ public class MeetingService {
         return meetingList.map(MeetingListResDto::from);
     }
 
-    public MeetingResDto getMeeting(Long id) {
-        Meeting meeting = meetingRepository.findById(id)
-            .orElseThrow(() -> new CustomException(ErrorCode.MEETING_NOT_FOUND));
+    public MeetingResDto getMeeting(Long meetingId) {
+        Meeting meeting = getMeetingById(meetingId);
         return MeetingResDto.from(meeting);
+    }
+
+    public Meeting getMeetingById(Long meetingId) {
+        return meetingRepository.findById(meetingId)
+            .orElseThrow(() -> new CustomException(ErrorCode.MEETING_NOT_FOUND));
     }
 
     private void validateMeetingTypeStr(String meetingTypeStr) {
